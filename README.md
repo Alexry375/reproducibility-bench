@@ -213,6 +213,6 @@ useful to a hackathon about research infrastructure than pretending otherwise.
 | `results/mcp_calls.jsonl` | Discovery calls, arguments and raw responses |
 | `results/mcp_calls_datasets.jsonl` | Dataset/software availability calls |
 | `STORY.md` | The 1–2 page narrative required by the hackathon |
-| `SUBMISSION.md` | The submission dossier |
+| `SUBMISSION.md` | The submission dossier — also as [`SUBMISSION.pdf`](SUBMISSION.pdf) |
 | `METHOD.fr.md` | Working index of the bench (French) |
 | `site/` | Source of the published page |
