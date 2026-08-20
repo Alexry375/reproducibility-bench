@@ -1,0 +1,62 @@
+{
+ "_objet": "test direct de l'affirmation centrale de Lou, Polk & Skouras (2019)",
+ "_doi": "10.1016/j.jfineco.2019.03.011",
+ "_source_publication": "serveur MCP OpenAIRE d'Alien Intelligence, appel openaire_find_by_influence_class(C3, 'intraday momentum')",
+ "_hypotheses_figees": "recherche/2026-08-19-banc-reproductibilite/HYPOTHESES.md, commit ed1a739, anterieur a cette execution",
+ "_donnees": "data/base_mouvements/six_mois/barres.jsonl.gz",
+ "_mesure": "correlation de rang de Spearman calculee titre par titre, puis mediane des coefficients sur les titres",
+ "_avertissement": "ce n'est PAS une replication : l'article trie des portefeuilles en deciles sur des decennies de donnees CRSP. Le signe est comparable, la magnitude ne l'est pas.",
+ "titres_lus": 2950,
+ "titres_retenus": 2866,
+ "journees_titre_exploitees": 347793,
+ "seuils": {
+  "prix_minimum_dollars": 2.0,
+  "journees_minimum_par_titre": 60
+ },
+ "resultats": {
+  "H1": {
+   "relation": "nuit_t -> nuit_(t+1)",
+   "libelle": "persistance nocturne",
+   "signe_attendu": "positif",
+   "mediane_spearman": 0.00172,
+   "part_titres_signe_attendu": 0.5115,
+   "titres": 2866,
+   "premier_quartile": -0.05197,
+   "troisieme_quartile": 0.05744,
+   "verdict": "non concluant"
+  },
+  "H2": {
+   "relation": "jour_t -> jour_(t+1)",
+   "libelle": "persistance intraday",
+   "signe_attendu": "positif",
+   "mediane_spearman": -0.01297,
+   "part_titres_signe_attendu": 0.4567,
+   "titres": 2866,
+   "premier_quartile": -0.07892,
+   "troisieme_quartile": 0.05449,
+   "verdict": "non concluant"
+  },
+  "H3": {
+   "relation": "nuit_t -> jour_t",
+   "libelle": "retournement croise, meme jour",
+   "signe_attendu": "negatif",
+   "mediane_spearman": -0.03458,
+   "part_titres_signe_attendu": 0.6455,
+   "titres": 2866,
+   "premier_quartile": -0.10676,
+   "troisieme_quartile": 0.02812,
+   "verdict": "confirme"
+  },
+  "H4": {
+   "relation": "jour_t -> nuit_(t+1)",
+   "libelle": "retournement croise, jour vers nuit",
+   "signe_attendu": "negatif",
+   "mediane_spearman": -0.05151,
+   "part_titres_signe_attendu": 0.7163,
+   "titres": 2866,
+   "premier_quartile": -0.11446,
+   "troisieme_quartile": 0.00764,
+   "verdict": "confirme"
+  }
+ }
+}

@@ -1,0 +1,251 @@
+/* ============================================================
+   paper.css — the holobench house style, made portable.
+   Drop it in, then remove the page's own colour/typography CSS.
+   Every rule here is either a token or a component; there is no
+   utility layer on purpose (see RULES.md, "why so few classes").
+   ============================================================ */
+
+/* Required in <head>, before this file:
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+*/
+
+:root{
+  /* Ground. Warm, slightly yellow paper — not #fff, not grey.
+     This single choice is most of what makes the page feel printed. */
+  --paper:#EAE8E1;
+  --paper-2:#E1DED4;   /* recessed: control bars, code blocks, active rows */
+
+  /* Ink. Near-black with a green-brown bias, never #000. */
+  --ink:#17150F;
+  --ink-2:#5B5545;     /* secondary prose, all metadata */
+
+  /* Rules. Two weights, and you need both:
+     --rule between items, --rule-2 around blocks. */
+  --rule:#CAC5B4;
+  --rule-2:#B3AC98;
+
+  /* The signal. ONE hue, ONE meaning, decided before you write any
+     markup. Everything else on the page is ink or grey. */
+  --sig:#AE2911;
+  --sig-soft:#E7D3CB;
+
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+
+  --pad:clamp(20px,5vw,64px);      /* page gutter */
+  --gap:clamp(56px,8.6vh,116px);   /* space between sections */
+
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:18px;line-height:1.58;
+  font-variant-numeric:lining-nums tabular-nums;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,p,ul,ol,figure,table{margin:0}
+a{color:inherit;text-underline-offset:.18em;text-decoration-thickness:.06em;
+  text-decoration-color:var(--rule-2)}
+a:hover{text-decoration-color:var(--sig)}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+code,.mono{font-family:var(--mono);font-size:max(14px,.84em);letter-spacing:-.01em}
+em{font-style:italic}
+strong{font-weight:600}
+
+.wrap{width:min(1180px,100% - calc(var(--pad)*2));margin-inline:auto}
+.narrow{max-width:33em}          /* ~65 characters. Running prose lives here. */
+.lede{font-size:clamp(19px,1.5vw,21px);line-height:1.62;color:var(--ink-2);max-width:33em}
+.lede strong{color:var(--ink);font-weight:600}
+.note{font-size:17px;color:var(--ink-2);line-height:1.55;max-width:33em}
+
+/* ---------- masthead ---------- */
+.top{padding:22px 0 0}
+.top-in{display:flex;flex-wrap:wrap;gap:8px 26px;align-items:baseline;
+  border-bottom:1px solid var(--rule);padding-bottom:14px}
+.mark{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.top-meta{font-family:var(--mono);font-size:14px;color:var(--ink-2);letter-spacing:.02em;margin-left:auto}
+
+/* ---------- standing notice ----------
+   For anything that must be read before the argument: a scope
+   disclaimer, an affiliation, a licence. Visibility comes from
+   POSITION and WEIGHT, never from --sig; spending the signal
+   colour here blunts the one thing it is reserved for. */
+.standing{margin-top:14px;font-family:var(--mono);font-size:15px;line-height:1.55;
+  letter-spacing:.01em;display:flex;flex-wrap:wrap;gap:2px 16px}
+.standing b{font-weight:500;color:var(--ink)}
+.standing span{color:var(--ink-2)}
+
+/* ---------- hero ----------
+   .hero h1 is the setup, in small light type. .fact is the finding,
+   huge. The reader must be able to leave after .fact and still have
+   got the result. Put the accent on ONE word inside .fact, with <em>. */
+.hero{padding:clamp(38px,8.5vh,104px) 0 0}
+.hero h1{font-weight:300;font-size:clamp(23px,2.35vw,31px);line-height:1.42;
+  max-width:23em;letter-spacing:-.005em}
+.fact{font-weight:400;font-size:clamp(38px,6.6vw,80px);line-height:1.03;
+  letter-spacing:-.028em;margin-top:clamp(26px,4vh,46px);max-width:12.5em}
+.fact em{font-style:normal;color:var(--sig)}
+
+/* Tally glyph: one mark per unit, marks that failed in --sig.
+   Only use it when the count is small enough to read at a glance
+   (roughly under 30) and each mark means one real thing. */
+.tally{margin-top:clamp(32px,5vh,54px);display:flex;align-items:flex-end;gap:11px}
+.tally .grp{display:flex;gap:7px;padding-right:15px;border-right:1px solid var(--rule)}
+.tally .grp:last-child{border-right:0;padding-right:0}
+.tick{width:15px;height:52px;background:var(--ink);display:block}
+.tick.bad{background:var(--sig)}
+.tally-cap{font-family:var(--mono);font-size:14px;color:var(--ink-2);margin-top:16px;letter-spacing:.01em}
+
+/* ---------- sections ----------
+   The number in .shead .n is only legitimate when the sections are a
+   real sequence. If they are not, drop the number and keep the label. */
+section{padding-top:var(--gap)}
+.shead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;
+  border-top:1px solid var(--ink);padding-top:12px;margin-bottom:clamp(22px,3.2vh,36px)}
+.shead .n{font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);white-space:nowrap}
+.shead h2{font-weight:400;font-size:clamp(25px,2.9vw,38px);line-height:1.14;
+  letter-spacing:-.02em;max-width:16em}
+.shead .tag{font-family:var(--mono);font-size:14px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-2)}
+.shead .tag.bad{color:var(--sig)}
+
+/* ---------- band ----------
+   Replaces the card. A card is a box floating on a different
+   background; a band is a stretch of the page fenced by two rules.
+   Same grouping, no chrome, and it does not fight the paper. */
+.band{border-top:1px solid var(--ink);padding-top:16px;margin-top:clamp(30px,4vh,52px)}
+.band+.band{margin-top:clamp(34px,4.6vh,60px)}
+/* A .shead already fences what follows; a second heavy rule right under it
+   is redundant, so the first band in a section drops its own. */
+.shead+.band{border-top:0;padding-top:0;margin-top:0}
+.band h3{font-weight:400;font-size:clamp(21px,2vw,27px);line-height:1.2;
+  letter-spacing:-.015em;max-width:22em}
+.bandmeta{font-family:var(--mono);font-size:14px;color:var(--ink-2);margin-top:9px;
+  line-height:1.6;overflow-wrap:anywhere}
+.bandmeta b{font-weight:500;color:var(--ink)}
+
+/* Metadata that used to be pills. Separators, not containers. */
+.metaline{font-family:var(--mono);font-size:14px;color:var(--ink-2);margin-top:10px;
+  display:flex;flex-wrap:wrap;gap:2px 0;line-height:1.6}
+.metaline span+span::before{content:"·";color:var(--rule-2);margin:0 .6em}
+
+/* A quoted claim under test. Serif italic, indented by a rule. */
+.quote{font-style:italic;font-size:20px;line-height:1.45;max-width:34em;
+  border-left:3px solid var(--rule-2);padding-left:18px;margin-top:18px}
+.quote.bad{border-left-color:var(--sig)}
+
+/* ---------- the spine ----------
+   Two claims side by side with a coloured seam between them: what was
+   asserted on the left, what was measured on the right. The seam turns
+   --sig exactly when they disagree. This is the component that carries
+   the argument; use it wherever a page compares claim against evidence. */
+.spine-head{display:grid;grid-template-columns:1fr 3px 1fr;gap:0 clamp(20px,3vw,44px);
+  font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);padding-bottom:10px}
+.spine-head span:last-child{grid-column:3}
+.rows{border-top:1px solid var(--rule-2)}
+.row{display:grid;grid-template-columns:1fr 3px 1fr;gap:0 clamp(20px,3vw,44px);width:100%;
+  border-bottom:1px solid var(--rule);position:relative;transition:background .12s ease}
+.row:hover,.row:focus-visible{background:#E3E0D6;outline:none}
+.row .l,.row .r{padding:15px 0 16px}
+.row .bar{background:var(--rule);width:3px}
+.row.st-bad .bar{background:var(--sig)}
+.claim{display:block;font-size:19px;line-height:1.35;letter-spacing:-.01em}
+.claim.q{font-style:italic}
+.rmeta{display:block;font-family:var(--mono);font-size:14px;color:var(--ink-2);
+  margin-top:7px;letter-spacing:.01em}
+.vsum{display:block;font-size:19px;line-height:1.35;letter-spacing:-.01em}
+.row.st-bad .vsum{color:var(--sig)}
+.vdet{display:block;font-family:var(--mono);font-size:14px;color:var(--ink-2);
+  margin-top:7px;overflow-wrap:anywhere;line-height:1.5}
+.vdet b{font-weight:500;color:var(--ink)}
+.vdet b::after{content:"  ·  ";color:var(--rule-2);font-weight:400;white-space:pre}
+@media (max-width:620px){
+  .spine-head{display:none}
+  .row{grid-template-columns:1fr;border-left:3px solid var(--rule);padding-left:14px}
+  .row.st-bad{border-left-color:var(--sig)}
+  .row .bar{display:none}
+  .row .r{padding-top:0;border-top:1px dotted var(--rule)}
+}
+
+/* ---------- tables ----------
+   No vertical rules, no zebra, no box. One hairline under each row.
+   Numbers in mono so columns line up; headers in small uppercase mono. */
+table.plain{border-collapse:collapse;width:100%;margin-top:14px}
+table.plain th,table.plain td{text-align:left;padding:9px 18px 9px 0;
+  border-bottom:1px solid var(--rule);font-size:17px;vertical-align:baseline}
+table.plain th{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-2);border-bottom-color:var(--rule-2)}
+table.plain td.n,table.plain th.n{font-family:var(--mono);font-size:15px;text-align:right}
+table.plain th:last-child,table.plain td:last-child{padding-right:0}
+table.plain tr:last-child td{border-bottom:0}
+
+/* Verdicts are words, not pills. The negative one is the only
+   coloured thing in the table. */
+.verdict{font-family:var(--mono);font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink)}
+.verdict.bad{color:var(--sig)}
+.verdict.off{color:var(--ink-2)}
+
+/* Wide tables scroll inside their own container so the page body
+   never scrolls sideways. This is the one scrollable region allowed. */
+.xscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* ---------- steps ----------
+   For a genuine sequence only. Numbers are information here; if the
+   items can be reordered without loss, use a plain list instead. */
+.steps{list-style:none;padding:0;display:grid;gap:0;border-top:1px solid var(--rule-2)}
+.steps li{display:grid;grid-template-columns:minmax(0,10em) 1fr;gap:0 clamp(18px,2.6vw,40px);
+  padding:15px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.steps b{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase}
+.steps span{font-size:17px;line-height:1.5;color:var(--ink-2);max-width:40em}
+.steps em{font-style:normal;color:var(--ink)}
+@media (max-width:620px){ .steps li{grid-template-columns:1fr;gap:5px} }
+
+/* ---------- big number ---------- */
+.big{font-size:clamp(44px,7vw,86px);line-height:.94;letter-spacing:-.035em;font-weight:400}
+.big small{font-size:15px;font-family:var(--mono);color:var(--ink-2);display:block;
+  margin-top:15px;line-height:1.55;letter-spacing:.09em;text-transform:uppercase;max-width:20em}
+
+/* ---------- columns ---------- */
+.cols{display:grid;gap:clamp(24px,3.4vw,60px);
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));align-items:start}
+
+/* ---------- code ---------- */
+pre{font-family:var(--mono);font-size:14px;line-height:1.7;background:var(--paper-2);
+  padding:16px 18px;margin:18px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;
+  border-left:3px solid var(--rule-2)}
+
+/* ---------- controls ----------
+   If the page has any control, it must look pressable: a real border,
+   a real hit area, and a fill on hover. Underlined 14px text is a
+   footnote, and readers will not find it. */
+.ctl{display:flex;align-items:stretch;min-height:46px;background:var(--paper-2);
+  border:1px solid var(--rule-2)}
+.ctl button{display:flex;align-items:center;gap:9px;padding:0 18px;white-space:nowrap;
+  font-family:var(--mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink);transition:background .12s,color .12s}
+.ctl button:hover:not(:disabled){background:var(--ink);color:var(--paper)}
+.ctl button:disabled{color:var(--rule-2);cursor:default}
+.ctl button:focus-visible{outline:2px solid var(--sig);outline-offset:-3px}
+
+/* ---------- footer ---------- */
+footer{margin-top:var(--gap);border-top:1px solid var(--ink);
+  padding:22px 0 clamp(56px,9vh,110px)}
+.flinks{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:14px;margin-top:16px}
+.byline{font-family:var(--mono);font-size:14px;color:var(--ink-2);margin-top:26px;line-height:1.7}
+
+/* ---------- built from the tokens, not from a framework ----------
+   A third tally state, for a prediction declared untestable in advance.
+   It is neither ink (a result) nor --sig (a disagreement), so it takes
+   the rule colour: present, counted, and visibly not a verdict. */
+.tick.off{background:var(--rule-2)}

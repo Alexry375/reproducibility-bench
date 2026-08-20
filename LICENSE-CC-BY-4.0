@@ -1,0 +1,29 @@
+# Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 Alexis Briend
+
+The following parts of this repository are licensed under CC BY 4.0:
+
+- all documentation and prose: `README.md`, `HYPOTHESES.md`, `STORY.md`,
+  `SUBMISSION.md`, `METHOD.fr.md`, `provenance/`;
+- the aggregate results in `results/lou_polk_skouras.json`;
+- the text content of `site/`.
+
+Source code (`measure/`, and the HTML/CSS of `site/` as code) is licensed
+under the MIT License — see `LICENSE`.
+
+You are free to share and adapt this material for any purpose, including
+commercially, provided you give appropriate credit, link to the licence, and
+indicate if changes were made.
+
+Full legal text: https://creativecommons.org/licenses/by/4.0/legalcode
+Human-readable summary: https://creativecommons.org/licenses/by/4.0/
+
+## Third-party material
+
+Raw OpenAIRE API responses stored in `results/mcp_calls*.jsonl` are metadata
+retrieved from the OpenAIRE Research Graph and remain subject to OpenAIRE's own
+terms of use. They are reproduced verbatim so the selection step can be audited.
+
+No market data is included in this repository under any licence: the underlying
+bars come from a commercial feed that forbids redistribution.

@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reproducibility Bench — what the literature claims, what 28 million market bars say</title>
+<meta name="description" content="Six predictions taken from three high-impact finance papers, frozen in git before any computation, then confronted with six months of real intraday equity data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="paper.css">
+</head>
+<body>
+
+<!-- masthead ------------------------------------------------------------- -->
+<div class="top"><div class="wrap"><div class="top-in">
+  <span class="mark">Reproducibility Bench</span>
+  <span class="top-meta">OpenAIRE AI Hackathon 2026 · track: analyse</span>
+</div></div></div>
+
+<!-- scope, read before the argument --------------------------------------- -->
+<div class="wrap"><p class="standing">
+  <b>Reproducible in method, not in data: the bars are a commercial feed and stay unpublished.</b>
+  <span>2 866 US equities · ~126 trading sessions · 347 793 stock-days · CC&nbsp;BY&nbsp;4.0</span>
+</p></div>
+
+<main>
+<!-- hero: setup small, finding huge --------------------------------------- -->
+<div class="wrap">
+  <div class="hero">
+    <h1>Six predictions, taken from three papers the OpenAIRE server chose for us,
+        committed to git before a single market bar was read.</h1>
+
+    <p class="fact">Three reproduce. Two leave <em>no trace.</em> One we refuse to answer.</p>
+
+    <div class="tally">
+      <div class="grp"><i class="tick bad"></i><i class="tick bad"></i></div>
+      <div class="grp"><i class="tick"></i><i class="tick"></i><i class="tick"></i></div>
+      <div class="grp"><i class="tick off"></i></div>
+    </div>
+    <p class="tally-cap">2 predictions left no measurable trace · 3 reproduced ·
+      1 was declared untestable before the run, and stayed that way</p>
+
+    <p class="lede" style="margin-top:26px">Saying that a paper cannot be tested on the data at
+      hand — rather than answering anyway — is <strong>part of the result</strong>, not a gap in
+      it. So is publishing the two predictions that failed next to the three that held.</p>
+  </div>
+</div>
+
+<!-- method ---------------------------------------------------------------- -->
+<section><div class="wrap">
+  <div class="shead"><span class="n">Method</span><h2>How the bench works</h2></div>
+  <ul class="steps">
+    <li><b>1 · Discover</b><span>We named an <em>influence class</em>; the OpenAIRE MCP server named
+      the papers inside it, ordered by field-normalised citation impact.</span></li>
+    <li><b>2 · Freeze</b><span>One testable claim per paper, with its <em>expected sign</em>,
+      committed to git before computing.</span></li>
+    <li><b>3 · Measure</b><span>Run against proprietary intraday bars <em>already collected for
+      another purpose</em>.</span></li>
+    <li><b>4 · Judge</b><span>Reproduces · no trace · out of reach. Decided by a rule
+      <em>written in advance</em>.</span></li>
+  </ul>
+  <p class="note" style="margin-top:22px">Step 2 is the whole point. A bench that writes its
+    predictions after seeing the numbers proves nothing. The predictions live in commit
+    <code>ed1a739</code>; the program that tested them was written after it.</p>
+</div></section>
+
+<!-- paper 1 --------------------------------------------------------------- -->
+<section><div class="wrap">
+  <div class="shead">
+    <span class="n">Paper 01</span>
+    <h2>The tug of war</h2>
+    <span class="tag bad">2 of 4 leave no trace</span>
+  </div>
+
+  <div class="band">
+    <h3>A tug of war: Overnight versus intraday expected returns</h3>
+    <p class="bandmeta">Lou, Polk &amp; Skouras · <b>Journal of Financial Economics</b>, 2019 ·
+      DOI <code>10.1016/j.jfineco.2019.03.011</code></p>
+    <p class="metaline">
+      <span>272 citations</span><span>influence C3</span><span>popularity C2</span>
+      <span>impulse C2</span><span>found via find_by_influence_class</span>
+    </p>
+
+    <p class="quote bad">“We document strong overnight and intraday firm-level return
+      continuation along with an offsetting cross-period reversal effect, all of which lasts
+      for years.”</p>
+
+    <p class="note" style="margin-top:20px">Two distinct claims live in that sentence:
+      <strong>continuation</strong> (a stock's night predicts its next night; its day predicts
+      its next day) and <strong>cross-period reversal</strong> (a night predicts the
+      <em>opposite</em> of the day that follows). We tested them separately, because they can
+      fail separately — and they did.</p>
+
+    <!-- the spine: predicted on the left, measured on the right ------------ -->
+    <div style="margin-top:clamp(26px,3.4vh,40px)">
+      <div class="spine-head"><span>What the paper predicts</span><span>What the bars say</span></div>
+      <div class="rows">
+
+        <div class="row st-bad">
+          <div class="l">
+            <span class="claim">night → next night, positive</span>
+            <span class="rmeta">H1 · continuation</span>
+          </div>
+          <div class="bar"></div>
+          <div class="r">
+            <span class="vsum">no trace</span>
+            <span class="vdet"><b>median ρ +0.0017</b>51.2% of stocks carry the sign, against a
+              55% threshold fixed in advance</span>
+          </div>
+        </div>
+
+        <div class="row st-bad">
+          <div class="l">
+            <span class="claim">day → next day, positive</span>
+            <span class="rmeta">H2 · continuation</span>
+          </div>
+          <div class="bar"></div>
+          <div class="r">
+            <span class="vsum">no trace</span>
+            <span class="vdet"><b>median ρ −0.0130</b>45.7% of stocks carry the sign — the
+              median itself leans the other way</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="l">
+            <span class="claim">night → same-day session, negative</span>
+            <span class="rmeta">H3 · cross-period reversal</span>
+          </div>
+          <div class="bar"></div>
+          <div class="r">
+            <span class="vsum">reproduces</span>
+            <span class="vdet"><b>median ρ −0.0346</b>64.5% of stocks carry the sign</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="l">
+            <span class="claim">day → following night, negative</span>
+            <span class="rmeta">H4 · cross-period reversal</span>
+          </div>
+          <div class="bar"></div>
+          <div class="r">
+            <span class="vsum">reproduces</span>
+            <span class="vdet"><b>median ρ −0.0515</b>71.6% of stocks carry the sign</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:22px">Spearman rank correlation computed <em>within each
+      stock</em>, then the median taken across stocks — so that a handful of violently volatile
+      tickers cannot speak for the whole market. 2 866 stocks with ≥ 60 usable sessions each,
+      opening price ≥ $2. Verdict rule, fixed in advance: correct sign <em>and</em> ≥ 55% of
+      stocks carrying it. Anything else leaves <em>no trace</em>.</p>
+
+    <p class="narrow" style="margin-top:22px"><strong>Reading the split honestly.</strong> The
+      cross-period reversal is the sturdier half of the paper: it survives a protocol far
+      coarser than the original — plain serial correlation over six months, instead of
+      decile-sorted portfolios over decades. Continuation does not survive that coarsening.
+      <em>That is not a refutation.</em> A portfolio-level effect can be real and still be
+      invisible to a stock-level correlation over 126 sessions. What we can say is narrower and
+      worth saying: <strong>of the two effects, only one is robust enough to show up in a small,
+      short, independent sample.</strong></p>
+  </div>
+</div></section>
+
+<!-- paper 2 --------------------------------------------------------------- -->
+<section><div class="wrap">
+  <div class="shead">
+    <span class="n">Paper 02</span>
+    <h2>And then the costs eat it</h2>
+    <span class="tag">reproduces, from the other end</span>
+  </div>
+
+  <div class="band">
+    <h3>Are Momentum Profits Robust to Trading Costs?</h3>
+    <p class="bandmeta">Korajczyk &amp; Sadka · <b>SSRN Electronic Journal</b>, 2002 ·
+      DOI <code>10.2139/ssrn.305282</code></p>
+    <p class="metaline">
+      <span>419 citations</span><span>influence C3</span><span>popularity C3</span>
+      <span>found via find_by_influence_class</span>
+    </p>
+
+    <p class="quote">“The price impact models imply that abnormal returns to portfolio
+      strategies decline with portfolio size. We calculate break-even fund sizes that lead to
+      zero abnormal returns.”</p>
+
+    <p class="note" style="margin-top:20px">Their claim is not that the effect is illusory — it
+      is that it <strong>dies above a certain amount of capital</strong>, because a large order
+      moves the price against itself. We sit at the opposite extreme of that curve:
+      <strong>$500 per position</strong>. No price impact whatsoever. And the effect dies anyway.</p>
+
+    <div class="xscroll" style="max-width:44em">
+      <table class="plain">
+        <thead><tr>
+          <th>Buying an 8% intraday drop, exit at close — 549 cases</th><th class="n">Median</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Net return after broker commissions</td><td class="n">+0.09%</td></tr>
+          <tr><td>Same rule, random-entry control on the same stock and day</td>
+              <td class="n">−0.54%</td></tr>
+          <tr><td><strong>Edge over chance</strong></td>
+              <td class="n"><strong>+0.63 pt</strong></td></tr>
+          <tr><td>Bid–ask spread actually paid — measured on 173 stocks, 1 011 660 bars,
+                  <em>not</em> included in the line above</td>
+              <td class="n">−0.24% to −0.48%</td></tr>
+          <tr><td><strong>Return once the spread is paid</strong></td>
+              <td class="n"><strong>−0.15% to −0.39%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note" style="margin-top:18px">The control is the load-bearing part. In a rising
+      market any entry makes money; only the gap between the rule and a coin flip means
+      anything. The spread range spans the median spread across all trading minutes (0.24%) and
+      the spread actually standing at the two moments this rule trades — early session and close
+      (0.48%). Commission is $0.005 per share, $1.00 minimum per order, two orders, on $500
+      committed.</p>
+
+    <p class="narrow" style="margin-top:22px"><span class="verdict">reproduces</span> — the edge
+      over chance is real and sizeable. But an edge over chance is not money: the control loses
+      too, and the rule's own return is a rounding error away from zero before the spread and
+      below zero after it — under either spread assumption, and without a single share ever
+      being moved by our own order.</p>
+
+    <p class="narrow" style="margin-top:20px"><strong>What the bench adds to the paper.</strong>
+      The cost curve has two ends. Korajczyk &amp; Sadka measured the one where cost
+      <em>rises</em> with size, through price impact. At $500 the cost <em>falls</em> with size,
+      because a $1.00 minimum commission per order weighs proportionally more the smaller the
+      trade. Abnormal returns vanish at both ends. The interesting question is not whether a
+      strategy works — it is the band of capital in which it can work at all, and that band is
+      bounded from below as well as from above.</p>
+  </div>
+</div></section>
+
+<!-- paper 3 --------------------------------------------------------------- -->
+<section><div class="wrap">
+  <div class="shead">
+    <span class="n">Paper 03</span>
+    <h2>The one we refuse to answer</h2>
+    <span class="tag">out of reach, declared in advance</span>
+  </div>
+
+  <div class="band">
+    <h3>Momentum and post-earnings-announcement drift anomalies: The role of liquidity risk</h3>
+    <p class="bandmeta">Sadka · <b>Journal of Financial Economics</b>, 2006 ·
+      DOI <code>10.1016/j.jfineco.2005.04.005</code></p>
+    <p class="metaline">
+      <span>661 citations</span><span>influence C3</span><span>popularity C2</span>
+      <span>found via find_by_influence_class</span>
+    </p>
+
+    <p class="quote">“Unexpected systematic variations of the variable component rather than the
+      fixed component of liquidity are shown to be priced within the context of momentum and
+      post-earnings-announcement drift portfolio returns.”</p>
+
+    <p class="narrow" style="margin-top:22px">Sadka's liquidity measure is built from the
+      <strong>unexpected component of order flow</strong>. Our bars are trade prints. We hold a
+      bid–ask spread — which is a different object, the <em>fixed</em> component his paper
+      explicitly sets aside as the one that is <em>not</em> priced. Substituting one for the
+      other would produce a number, and the number would be meaningless.</p>
+
+    <p class="note" style="margin-top:20px">This verdict was written into the frozen hypotheses
+      <em>before</em> the run, not chosen afterwards to explain away a disappointing result. A
+      bench that always returns an answer is a bench that has stopped checking whether it can.</p>
+  </div>
+</div></section>
+
+<!-- limits ---------------------------------------------------------------- -->
+<section><div class="wrap">
+  <div class="shead"><span class="n">Limits</span><h2>What this does not show</h2></div>
+  <ul class="steps">
+    <li><b>Not a replication</b><span>The original studies use decile-sorted portfolios over
+      decades of CRSP data. We use within-stock rank correlations over six months. Signs are
+      comparable; <em>magnitudes are not</em>.</span></li>
+    <li><b>One regime</b><span>February to August 2026. Nothing here speaks to any other
+      period.</span></li>
+    <li><b>Not tradable</b><span>H3 and H4 reproducing does not make them tradable —
+      <em>Paper 02's arithmetic is precisely what stands in the way</em>.</span></li>
+    <li><b>Returns are ceilings</b><span>Slippage is modelled at zero and limit orders are
+      assumed filled the moment the bar's high touches them.</span></li>
+    <li><b>Stale opens</b><span>The first printed price of a session is sometimes stale, which
+      adds noise to the overnight leg. A source of noise, <em>not a directional bias</em>.</span></li>
+  </ul>
+</div></section>
+
+<!-- reproducibility -------------------------------------------------------- -->
+<section><div class="wrap">
+  <div class="shead"><span class="n">Artefacts</span><h2>Reproducibility</h2></div>
+  <div class="xscroll">
+    <table class="plain">
+      <thead><tr><th>File</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><code>HYPOTHESES.md</code></td>
+            <td>The six predictions with their expected signs and the verdict rule, committed
+              before the measurement program existed. Later corrections are appended, never
+              rewritten over.</td></tr>
+        <tr><td><code>35_banc_reproductibilite.py</code></td>
+            <td>The measurement. No network, no model, no agent — reads compressed bars, emits
+              JSON.</td></tr>
+        <tr><td><code>appels_mcp.jsonl</code></td>
+            <td>Every OpenAIRE MCP call with its exact arguments and its raw response, so the
+              paper selection can be replayed.</td></tr>
+        <tr><td><code>LOU_POLK_SKOURAS.json</code></td>
+            <td>Aggregate output: medians, quartiles, stock counts, verdicts.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note" style="margin-top:20px"><strong>What is not published, and why.</strong> The
+    underlying minute and five-minute bars come from a commercial broker feed whose
+    redistribution is contractually forbidden. Only aggregates, code and method are released.
+    This is a licensing boundary, not a convenience: the bench is reproducible in method by
+    anyone holding equivalent data.</p>
+</div></section>
+
+<!-- why MCP ---------------------------------------------------------------- -->
+<section><div class="wrap">
+  <div class="shead"><span class="n">Postscript</span><h2>Why an MCP server changed the shape of this</h2></div>
+  <p class="narrow">The papers above were not retrieved by keyword search and then ranked by a
+    human hunch. We named a topic and an influence class;
+    <code>openaire_find_by_influence_class</code> returned the work inside that class, ordered by
+    field-normalised, time-adjusted citation impact. The one choice we made is a single line and
+    it sits in the call log; which papers came back is not ours. The selection step carries a
+    stated, auditable criterion instead of a taste. That is the part worth keeping: not that an agent
+    can read papers, but that <strong>“which papers” stopped being an unexamined
+    choice.</strong></p>
+  <pre style="max-width:52em">openaire_find_by_influence_class(influence_class="C3", query="intraday momentum", limit=5)
+openaire_get_research_product_details(identifier="10.1016/j.jfineco.2019.03.011")</pre>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <p class="note">Built on 19 August 2026 for the OpenAIRE × Alien Intelligence AI Hackathon.
+    Bibliographic data: OpenAIRE Research Graph, via the Alien Intelligence MCP server. Market
+    data: proprietary, not redistributed.</p>
+  <p class="flinks">
+    <a href="https://explore.openaire.eu/">OpenAIRE Research Graph</a>
+    <a href="https://github.com/the-alien-club/claude-marketplace">Alien OpenScience plugin</a>
+    <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  </p>
+  <p class="byline">Text, code and aggregate results released under CC BY 4.0.<br>
+    Six predictions, three papers, 28 053 936 five-minute market bars, one refusal to answer.</p>
+</div></footer>
+
+</body>
+</html>
